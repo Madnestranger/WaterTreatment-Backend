@@ -32,13 +32,27 @@ router.post('/', function (req, res) {
         desc: req.body.desc,
         images: req.body.images
     };
-    db.get().collection('waterObjects').insert(object, function (err, result) {
-        if (err) {
-            console.log(err);
-            return res.sendStatus(500);
-        }
+    if (req.body.id) {
+        db.get().collection('waterObjects').updateOne(
+            { _id: ObjectId(req.body.id)},
+            { $set: {
+                name: req.body.name,
+                lat: req.body.lat,
+                lng: req.body.lng,
+                desc: req.body.desc,
+                images: req.body.images
+            }
+            });
         res.send(object);
-    });
+    } else {
+        db.get().collection('waterObjects').insert(object, function (err, result) {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500);
+            }
+            res.send(object);
+        });
+    }
 });
 
 module.exports = router;
