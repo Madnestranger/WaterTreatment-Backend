@@ -30,7 +30,8 @@ router.post('/', function (req, res) {
         lat: req.body.lat,
         lng: req.body.lng,
         desc: req.body.desc,
-        images: req.body.images
+        images: req.body.images,
+        id: req.body.id
     };
     if (req.body.id) {
         db.get().collection('waterObjects').updateOne(
@@ -40,7 +41,8 @@ router.post('/', function (req, res) {
                 lat: req.body.lat,
                 lng: req.body.lng,
                 desc: req.body.desc,
-                images: req.body.images
+                images: req.body.images,
+                id: req.body.id
             }
             });
         res.send(object);
