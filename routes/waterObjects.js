@@ -11,6 +11,16 @@ router.get('/', function(req, res, next) {
                 console.log(err);
                 return res.sendStatus(500);
             }
+            docs.diseaseObject = [];
+            docs.diseases.forEach(function (disease) {
+                db.get().collection('diseases').findOne({_id: ObjectId(disease)}, function (err, docsDis) {
+                    if (err) {
+                        console.log(err);
+                        return res.sendStatus(500);
+                    }
+                    docs.diseaseObject.push(docsDis);
+                });
+            });
             res.send(docs);
         })
     } else {
@@ -19,6 +29,18 @@ router.get('/', function(req, res, next) {
                 console.log(err);
                 return res.sendStatus(500);
             }
+            docs.forEach(function (object) {
+                object.diseaseObject = [];
+                object.diseases.forEach(function (disease) {
+                    db.get().collection('diseases').findOne({_id: ObjectId(disease)}, function (err, docsDis) {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500);
+                        }
+                        object.diseaseObject.push(docsDis);
+                    });
+                });
+            });
             res.send(docs);
         })
     }
@@ -31,7 +53,9 @@ router.post('/', function (req, res) {
         lng: req.body.lng,
         desc: req.body.desc,
         images: req.body.images,
-        cityId: req.body.cityId
+        cityId: req.body.cityId,
+        diseases: req.body.diseases,
+        existTreatAgency: req.body.existTreatAgency
     };
     if (req.body.id) {
         db.get().collection('waterObjects').updateOne(
@@ -42,7 +66,9 @@ router.post('/', function (req, res) {
                 lng: req.body.lng,
                 desc: req.body.desc,
                 images: req.body.images,
-                cityId: req.body.cityId
+                cityId: req.body.cityId,
+                diseases: req.body.diseases,
+                existTreatAgency: req.body.existTreatAgency
             }
             });
         res.send(object);
