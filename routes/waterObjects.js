@@ -11,16 +11,6 @@ router.get('/', function(req, res, next) {
                 console.log(err);
                 return res.sendStatus(500);
             }
-            docs.diseaseObject = [];
-            docs.diseases.forEach(function (disease) {
-                db.get().collection('diseases').findOne({_id: ObjectId(disease)}, function (err, docsDis) {
-                    if (err) {
-                        console.log(err);
-                        return res.sendStatus(500);
-                    }
-                    docs.diseaseObject.push(docsDis);
-                });
-            });
             res.send(docs);
         })
     } else {
@@ -29,19 +19,21 @@ router.get('/', function(req, res, next) {
                 console.log(err);
                 return res.sendStatus(500);
             }
-            docs.forEach(function (object) {
-                object.diseaseObject = [];
-                object.diseases.forEach(function (disease) {
-                    db.get().collection('diseases').findOne({_id: ObjectId(disease)}, function (err, docsDis) {
-                        if (err) {
-                            console.log(err);
-                            return res.sendStatus(500);
-                        }
-                        object.diseaseObject.push(docsDis);
+            db.get().collection('diseases').find().toArray(function (errDis, docsDis) {
+                docs.forEach(function (object, key) {
+                    if (!docs[key].diseaseObject) {
+                        docs[key].diseaseObject = [];
+                    }
+                    object.diseases.forEach(function (disease) {
+                        object.diseaseObject.push(docsDis.find(function (x) {
+                           return x._id == disease;
+                        }));
                     });
+                    if (key == docs.length - 1 ) {
+                        res.send(docs);
+                    }
                 });
             });
-            res.send(docs);
         })
     }
 });

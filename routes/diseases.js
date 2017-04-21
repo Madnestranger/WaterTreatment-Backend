@@ -24,4 +24,17 @@ router.get('/', function(req, res, next) {
     }
 });
 
+router.post('/', function (req, res) {
+    var object = {
+        name: req.body.name
+    };
+    db.get().collection('diseases').insert(object, function (err, result) {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500);
+        }
+        res.send(object);
+    });
+});
+
 module.exports = router;
