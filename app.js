@@ -11,6 +11,7 @@ var waterObjects = require('./routes/waterObjects');
 var forestObjects = require('./routes/forestObjects');
 var getPolygon = require('./routes/getPolygon');
 var diseases = require('./routes/diseases');
+var users = require('./routes/users');
 
 var app = express();
 
@@ -34,6 +35,7 @@ app.use('/waterObjects', waterObjects);
 app.use('/forestObjects', forestObjects);
 app.use('/getPolygon', getPolygon);
 app.use('/diseases', diseases);
+app.use('/login', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
