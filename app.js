@@ -12,6 +12,7 @@ var forestObjects = require('./routes/forestObjects');
 var getPolygon = require('./routes/getPolygon');
 var diseases = require('./routes/diseases');
 var users = require('./routes/users');
+var regions = require('./routes/regions');
 
 var app = express();
 
@@ -36,6 +37,7 @@ app.use('/forestObjects', forestObjects);
 app.use('/getPolygon', getPolygon);
 app.use('/diseases', diseases);
 app.use('/login', users);
+app.use('/regions', regions);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

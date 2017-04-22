@@ -6,7 +6,7 @@ var ObjectId = require('mongodb').ObjectID;
 /* GET users listing. */
 router.get('/', function(req, res, next) {
     if (req.query.id) {
-        db.get().collection('forestObjects').findOne({_id: ObjectId(req.query.id)}, function (err, docs) {
+        db.get().collection('forestObjects').find({cityId: req.query.id}).toArray(function (err, docs) {
             if (err) {
                 console.log(err);
                 return res.sendStatus(500);
@@ -30,7 +30,8 @@ router.post('/', function (req, res) {
         lat: req.body.lat,
         lng: req.body.lng,
         desc: req.body.desc,
-        images: req.body.images
+        images: req.body.images,
+        cityId: req.body.cityId
     };
     if (req.body.id) {
         db.get().collection('forestObjects').updateOne(
@@ -40,7 +41,8 @@ router.post('/', function (req, res) {
                 lat: req.body.lat,
                 lng: req.body.lng,
                 desc: req.body.desc,
-                images: req.body.images
+                images: req.body.images,
+                cityId: req.body.cityId
             }
             });
         res.send(object);
