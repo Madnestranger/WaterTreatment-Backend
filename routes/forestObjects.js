@@ -31,7 +31,10 @@ router.post('/', function (req, res) {
         lng: req.body.lng,
         desc: req.body.desc,
         images: req.body.images,
-        cityId: req.body.cityId
+        cityId: req.body.cityId,
+        forestPlanting: req.body.forestPlanting,
+        reforestation: req.body.reforestation,
+        eventLogging: req.body.eventLogging
     };
     if (req.body.id) {
         db.get().collection('forestObjects').updateOne(
@@ -42,7 +45,10 @@ router.post('/', function (req, res) {
                 lng: req.body.lng,
                 desc: req.body.desc,
                 images: req.body.images,
-                cityId: req.body.cityId
+                cityId: req.body.cityId,
+                forestPlanting: req.body.forestPlanting,
+                reforestation: req.body.reforestation,
+                eventLogging: req.body.eventLogging
             }
             });
         res.send(object);
