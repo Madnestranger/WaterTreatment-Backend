@@ -11,7 +11,15 @@ router.get('/', function(req, res, next) {
                 console.log(err);
                 return res.sendStatus(500);
             }
-            res.send(docs);
+            db.get().collection('diseases').find().toArray(function (errDis, docsDis) {
+                docs.diseaseObject = [];
+                docs.diseases.forEach(function (disease) {
+                    docs.diseaseObject.push(docsDis.find(function (x) {
+                        return x._id == disease;
+                    }));
+                });
+                res.send(docs);
+            });
         })
     } else {
         db.get().collection('waterObjects').find().toArray(function (err, docs) {
